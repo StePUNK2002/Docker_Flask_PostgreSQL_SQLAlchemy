@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мой сайт</title>
+    <!-- <link rel="stylesheet" href="../CSS/post.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/post.css') }}">
+</head>
+<body>
+{% for post in posts %}
+<div class="center-container-post">
+    <div>
+        <div class="post-format">
+            <div class="content-post">
+                <form style="">
+                    <div class="title">
+                        <div class="user-info-container">
+                            <div class="avatar" style="margin-left: 5px;">
+                                {% if post.author.avatar%}
+                                <img src="{{ url_for('static', filename='avatars/' + post.author.avatar) }}">
+                                {% endif %}
+                            </div>
+                            {% if post.author.login%}
+                            <p class="me-3">{{post.author.login}} </p>
+                            {% endif %}
+                        </div>
+                        <div class="user-info-container">
+                            <p style="margin: 0px 10px;">Заголовок: {{post.title}}</p>
+                        </div>
+                        <div class="user-info-container">
+                            <p style="margin: 0px 10px;">Дата: {{post.post_date|datetimeformat}}</p>
+                        </div>
+                    </div>
+                    <p class="me-3">{{post.text|nl2br|safe}}</p>
+                    {% if post.images %}
+                    {% for image in post.images %}
+                    <img class="post-image" src="{{ url_for('static', filename='images/' + image.path) }}">
+                    {% endfor %}
+                    {% endif %}
+                    <div class="title">
+                        <div class="site-header box-shadow">
+                            <div class="user-info-container">
+                                <a href="{{ url_for('like', post_id_like=post.id) }}">&#129293;</a>
+                                {% if post.author.login == nickname%}
+                                <a style="margin-left: 15px;" href="{{ url_for('edit_post', post_id_edit=post.id, post_title=post.title,post_text=post.text) }}">&#128221;</a>
+                                <a style="margin-left: 15px;" href="{{ url_for('delete_post', post_id_delete=post.id) }}">&#x274C;</a>
+                                {% endif %}
+                                <p style="margin: 0px 10px; background-color: #4285B4;">Лайки: </p>
+                                <p>{{post.likes}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</body>
+</html>

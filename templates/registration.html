@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мой сайт</title>
+    <!--<link rel="stylesheet" href="../CSS/registration.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/registration.css') }}">
+</head>
+<body>
+
+{% if duplicate_login %}
+<div class="huge-banner">
+    <h1>Такой логин уже есть</h1>
+</div>
+{% endif %}
+<div class="center-container" style="margin: 50px 0;">
+    <div class="form-container">
+        <form action="{{ url_for('registration') }}" method="POST" enctype="multipart/form-data">
+            <label for="lastName">Фамилия:</label>
+            <input type="text" id="lastName" name="lastName" maxlength="100" placeholder="Максимум 100 символов"
+                   required>
+
+
+            <label for="firstName">Имя:</label>
+            <input type="text" id="firstName" name="firstName" maxlength="100" placeholder="Максимум 100 символов"
+                   required>
+
+            <label for="middleName">Отчество:</label>
+            <input type="text" id="middleName" name="middleName" maxlength="100" placeholder="Максимум 100 символов">
+
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" maxlength="20" placeholder="Например, edvkin1" required>
+
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" maxlength="20" placeholder="Например, Step11"
+                   required>
+
+            <label for="confirmPassword">Повторите пароль:</label>
+            <input type="password" id="confirmPassword" placeholder="Максимум 20 символов" name="confirmPassword"
+                   required>
+
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <label for="about">О себе:</label>
+            <textarea id="about" name="about" maxlength="100" placeholder="Максимум 100 символов" rows="4"></textarea>
+
+            <div class="file-input">
+                <input type="file" id="image" name="image" accept="image/*">
+                <label for="image">Выберите изображение профиля</label>
+            </div>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

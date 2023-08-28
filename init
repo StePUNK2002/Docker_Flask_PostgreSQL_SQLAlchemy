@@ -1,0 +1,347 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.8 (Homebrew)
+-- Dumped by pg_dump version 14.8 (Homebrew)
+
+CREATE USER newuser;
+CREATE DATABASE test;
+GRANT ALL PRIVILEGES ON DATABASE test TO newuser;
+
+
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: authors; Type: TABLE; Schema: public; Owner: newuser
+--
+
+CREATE TABLE IF NOT EXISTS public.authors (
+    id integer NOT NULL,
+    last_name character varying(100),
+    first_name character varying(100),
+    middle_name character varying(100),
+    login character varying(20),
+    password character varying(40),
+    avatar character varying,
+    aboutme character varying(500)
+);
+
+
+ALTER TABLE public.authors OWNER TO newuser;
+
+--
+-- Name: authors_id_seq; Type: SEQUENCE; Schema: public; Owner: newuser
+--
+
+CREATE SEQUENCE public.authors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.authors_id_seq OWNER TO newuser;
+
+--
+-- Name: authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newuser
+--
+
+ALTER SEQUENCE public.authors_id_seq OWNED BY public.authors.id;
+
+
+--
+-- Name: comments; Type: TABLE; Schema: public; Owner: newuser
+--
+
+CREATE TABLE IF NOT EXISTS public.comments (
+    id integer NOT NULL,
+    author_id integer,
+    text character varying(140),
+    post_id integer
+);
+
+
+ALTER TABLE public.comments OWNER TO newuser;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: newuser
+--
+
+CREATE SEQUENCE public.comments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_id_seq OWNER TO newuser;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newuser
+--
+
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
+-- Name: images; Type: TABLE; Schema: public; Owner: newuser
+--
+
+CREATE TABLE IF NOT EXISTS public.images (
+    id integer NOT NULL,
+    path character varying,
+    post_id integer
+);
+
+
+ALTER TABLE public.images OWNER TO newuser;
+
+--
+-- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: newuser
+--
+
+CREATE SEQUENCE public.images_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.images_id_seq OWNER TO newuser;
+
+--
+-- Name: images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newuser
+--
+
+ALTER SEQUENCE public.images_id_seq OWNED BY public.images.id;
+
+
+--
+-- Name: likes_post; Type: TABLE; Schema: public; Owner: newuser
+--
+
+CREATE TABLE IF NOT EXISTS public.likes_post (
+    id integer NOT NULL,
+    author_id integer,
+    post_id integer
+);
+
+
+CREATE TABLE IF NOT EXISTS public.likes_post OWNER TO newuser;
+
+--
+-- Name: likes_post_id_seq; Type: SEQUENCE; Schema: public; Owner: newuser
+--
+
+CREATE SEQUENCE public.likes_post_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.likes_post_id_seq OWNER TO newuser;
+
+--
+-- Name: likes_post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newuser
+--
+
+ALTER SEQUENCE public.likes_post_id_seq OWNED BY public.likes_post.id;
+
+
+--
+-- Name: posts; Type: TABLE; Schema: public; Owner: newuser
+--
+
+CREATE TABLE IF NOT EXISTS public.posts (
+    id integer NOT NULL,
+    author_id integer,
+    post_date date,
+    title character varying(120),
+    text character varying(140),
+    likes integer
+);
+
+
+ALTER TABLE public.posts OWNER TO newuser;
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE; Schema: public; Owner: newuser
+--
+
+CREATE SEQUENCE public.posts_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.posts_id_seq OWNER TO newuser;
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newuser
+--
+
+ALTER SEQUENCE public.posts_id_seq OWNED BY public.posts.id;
+
+
+--
+-- Name: authors id; Type: DEFAULT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.authors ALTER COLUMN id SET DEFAULT nextval('public.authors_id_seq'::regclass);
+
+
+--
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: images id; Type: DEFAULT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.images ALTER COLUMN id SET DEFAULT nextval('public.images_id_seq'::regclass);
+
+
+--
+-- Name: likes_post id; Type: DEFAULT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.likes_post ALTER COLUMN id SET DEFAULT nextval('public.likes_post_id_seq'::regclass);
+
+
+--
+-- Name: posts id; Type: DEFAULT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.posts_id_seq'::regclass);
+
+
+--
+-- Name: authors authors_login_key; Type: CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.authors
+    ADD CONSTRAINT authors_login_key UNIQUE (login);
+
+
+--
+-- Name: authors authors_pkey; Type: CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: images images_pkey; Type: CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.images
+    ADD CONSTRAINT images_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: likes_post likes_post_pkey; Type: CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.likes_post
+    ADD CONSTRAINT likes_post_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.authors(id);
+
+
+--
+-- Name: comments comments_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+
+
+--
+-- Name: images images_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.images
+    ADD CONSTRAINT images_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+
+
+--
+-- Name: likes_post likes_post_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.likes_post
+    ADD CONSTRAINT likes_post_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.authors(id);
+
+
+--
+-- Name: likes_post likes_post_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.likes_post
+    ADD CONSTRAINT likes_post_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+
+
+--
+-- Name: posts posts_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newuser
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.authors(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

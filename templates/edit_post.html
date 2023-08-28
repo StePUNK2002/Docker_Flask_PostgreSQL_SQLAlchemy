@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мой сайт</title>
+    <!-- <link rel="stylesheet" href="../CSS/add_post.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/add_post.css') }}">
+</head>
+<body>
+<div class="center-container">
+    <div style="margin: 30px 0;">
+        <div>
+            <div class="post">
+                <form action="{{ url_for('editing_post') }}" method="POST" enctype="multipart/form-data">
+                    <div class="content">
+                        <div>
+                            <form style="margin: 12px 0;">
+                                <input value="{{post_title}}" type="text" id="post-heading" maxlength="120"
+                                       placeholder="Заголовок (максимум 120 символов)"
+                                       name="post-heading" required>
+                            </form>
+                        </div>
+                        <textarea id="post-content" name="post-content"
+                                  placeholder="Текст поста (максимум 140 символов)"
+                                  maxlength="140">{{post_text}}</textarea>
+                        <p id="remaining-characters"></p>
+                        <div class="file-input" style="margin: 12px 0;">
+                            <input type="file" id="image" name="image" accept="image/*">
+                            <label for="image">Прикрепите изображение</label>
+                        </div>
+                        <div>
+                            <button id="submit">Отправить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

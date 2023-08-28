@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мой сайт</title>
+    <!--<link rel="stylesheet" href="../CSS/login.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/login.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <div class="login-container">
+        <h2>Авторизация</h2>
+        <form method="POST" action="/login">
+            <input type="text" name="login" placeholder="Логин" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

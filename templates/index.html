@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мой сайт</title>
+    <!--<link rel="stylesheet" href="../static/CSS/index.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/index.css') }}">
+</head>
+<body>
+<header >
+    <div class="site-header box-shadow">
+        <a href="{{ url_for('index') }}" class="ms-3 fs-2 fw-bolder">Убежище_для_психики</a>
+        <div>
+            {% if is_be %}
+            <div class="site-header box-shadow">
+                <div class="user-info-container">
+                    <a href="{{ url_for('add_post') }}" class="me-3">Добавить пост</a>
+                    <div class="avatar">
+                        <img src="{{ avatar_path}}" alt="">
+                    </div>
+                    <b style="color: whitesmoke;">{{nickname}} </b>
+                </div>
+                <div class="logout-container">
+                    <a> | </a>
+                    <a href="{{ url_for('exit') }}" class="me-3">Выход</a>
+                </div>
+            </div>
+            {% else %}
+            {% if is_login is not true and is_registration is not true %}
+            <a href="{{ url_for('login') }}" class="me-3">Вход</a>
+            <a> | </a>
+            <a href="{{ url_for('registration') }}" class="me-3">Регистрация</a>
+            {% elif is_login and is_registration is not true %}
+            <a href="{{ url_for('registration') }}" class="me-3">Регистрация</a>
+            {% elif is_login is not true and is_registration %}
+            <a href="{{ url_for('login') }}" class="me-3">Вход</a>
+            {% endif %}
+            {% endif %}
+            <!--Тут будут посты-->
+        </div>
+    </div>
+</header>
+<div>
+    {% if in_bd %}
+    <div class="huge-banner">
+        <h1>Логин занят!!!</h1>
+    </div>
+    {% endif %}
+    {% if show_banner %}
+    <div class="huge-banner">
+        <h1>Ошибка. Проверьте поля!!!</h1>
+        <p>В логине и пароле должна быть латиница и только одно слово.</p>
+        <p>У пароля и логина первый символ - заглавная буква.</p>
+        <p>Поля Пароль и Повторите пароль должны совпадать.</p>
+        <p>Длина логина и пароля - минимум 6 символов.</p>
+        <p>Пароль должен быть из латиницы и цифр.</p>
+    </div>
+    {% endif %}
+    {% if added %}
+    <div class="huge-banner-green">
+        <h1>Пост добавлен!!!</h1>
+    </div>
+    {% endif %}
+    {% if succes %}
+    <div class="huge-banner-green">
+        <h1>Регистрация прошла успешно!!!</h1>
+    </div>
+    {% endif %}
+    {% if not_people %}
+    <div class="huge-banner">
+        <h1>Ошибка. Проверьте поля!!!</h1>
+        <p>Неверный логин и пароль</p>
+    </div>
+    {% endif %}
+    {% if show_banner %}
+    <div class="huge-banner">
+        <h1>Ошибка. Проверьте поля!!!</h1>
+        <p>В логине и пароле должна быть латиница и только одно слово.</p>
+    </div>
+    {% endif %}
+    {% if is_login %}
+    {% include 'login.html' %}
+    {% endif %}
+    {% if is_registration %}
+    {% include 'registration.html' %}
+    {% endif %}
+    {% if add_post %}
+    {% include 'add_post.html' %}
+    {% endif %}
+    {% if is_be %}
+    {% include 'post.html' %}
+    {% endif %}
+    {% if edit_post %}
+    {% include 'edit_post.html' %}
+    {% endif %}
+
+</div>
+</body>
+</html>
